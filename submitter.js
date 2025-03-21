@@ -304,7 +304,7 @@ const run = async () => {
   }
 
   console.log(`${notes.length} notes found`);
-  console.log('Students:');
+  console.log('Students (found in file):');
   notes.forEach(note => console.log(`\t${note.student_name}`));
 
   await fillNotes(notes, noteDateString);
