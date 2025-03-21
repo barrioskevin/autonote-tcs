@@ -1,14 +1,14 @@
----Language For ---
+---Language For {student_name}---
 
----App Name For ---
+---App Name For {student_name}---
 
----Project Details For ---
+---Project Details For {student_name}---
 URL:
 Login:
 Password:
----Note For ---
+---Note For {student_name}---
 
 ---end of note---
----Concepts For ---
+---Concepts For {student_name}---
 
 ---end of concepts---
