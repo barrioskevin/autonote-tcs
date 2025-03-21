@@ -17,8 +17,22 @@ interface Note {
   app_name: string,
 }
 
+/**
+ * parses the notes written from a text file to an array of 
+ * Note objects.
+ *
+ * the file is expected to follow the provided template for writting notes.
+ *
+ * if an error occurs in the parsing process the function should return an empty
+ * array and an output error message would be printed. i plan on coming up with
+ * a better way, maybe throwing the error excplicitly? but right now i just check for
+ * an empty array when using this to ensure notes exists.
+ *
+ * @param fileName - path of file to be read by fs.readFile 
+ * @return Note[] array of successfully parsed notes.
+ */
 export const parseNotes = async (fileName : string) => {
-  console.log("Running note parser");
+  console.log("Running note parser...");
   const notes : Note[] = [];
   try{
     const text = await fs.readFile(fileName, 'utf-8');
@@ -30,7 +44,7 @@ export const parseNotes = async (fileName : string) => {
     let note = "";
     let language = "";
     let interest_level = "green";
-    let project : Project = undefined;
+    let project : Project | undefined = undefined;
     let app_name = "";
     let concepts : string[] = [];
 
@@ -123,6 +137,7 @@ export const parseNotes = async (fileName : string) => {
         concepts.length = 0;
       }
     });
+    console.log("Parser completed...");
   } 
   catch(error){
     console.log("Error in note parsing!!");
