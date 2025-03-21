@@ -1,5 +1,5 @@
 const { chromium } = require('playwright');
-const { parseNotes } = require('./script');
+const { parseNotes } = require('./parser');
 require('dotenv').config();
 
 //read credentials from enviornment variables.
@@ -63,7 +63,8 @@ const fillNotes = async (notes, todaysDate) => {
   const locatorCheck = await todaysLocator.count();
   if(locatorCheck === 0)
   {
-    console.log("Couldnt find the notes for the date: ", todaysDate);
+    console.log(`[ERROR] Couldnt find notes for provided date: ${todaysDate}`);
+    await browser.close();
     return;
   }
   const noteButtons = todaysLocator.locator('button.notebutton');
@@ -127,16 +128,18 @@ const fillNotes = async (notes, todaysDate) => {
 
   if(studentPages.length > 0)
   {
-    console.log("Students that need notes: ");
-    studentPages.forEach(sp => console.log(sp.name));
+    console.log("Students that need notes:");
+    studentPages.forEach(sp => console.log(`\t${sp.name}`));
   }
   else
   {
-    console.log("No students need notes! (check date and/or duplicate names)");
+    console.log("Found no students that need notes!");
+    console.log("if this is not expected check date and/or duplicate names");
+    await browser.close();
+    return;
   }
 
   const AMT_NEEDED = studentPages.length > 0 ? studentPages.length : 0;
-
 
   const valid_languages = ["Scratch", "Python", "HTML/CSS", "Javascript", "Java", "C#"];
   let filled = 0;
@@ -248,6 +251,7 @@ const fillNotes = async (notes, todaysDate) => {
     filled += 1;
   }));
 
+  //RIGHT NOW THE FILLEd COUNT MY NOT BE ACCURATE!
   console.log("Filled ", filled, " notes out of ", AMT_NEEDED); 
   await browser.close();
 };
@@ -299,8 +303,11 @@ const run = async () => {
     process.exit(1);
   }
 
-  console.log(notes.length, " notes found");
-  //await fillNotes(notes, noteDateString);
+  console.log(`${notes.length} notes found`);
+  console.log('Students:');
+  notes.forEach(note => console.log(`\t${note.student_name}`));
+
+  await fillNotes(notes, noteDateString);
 
   console.log("Thank you for using autonote...");
 };
