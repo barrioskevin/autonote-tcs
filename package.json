@@ -8,7 +8,7 @@
     "test": "test"
   },
   "author": "kusa",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.4.7",
     "node": "^18.20.6",
