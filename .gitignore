@@ -5,3 +5,4 @@ node_modules/
 
 # ignore the generated script but keep the typescript one.
 script.js
+parser.js
