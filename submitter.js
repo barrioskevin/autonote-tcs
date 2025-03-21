@@ -5,6 +5,16 @@ require('dotenv').config();
 //read credentials from enviornment variables.
 const PIKE_EMAIL = process.env.PIKE_EMAIL;
 const PIKE_PASSWORD = process.env.PIKE_PASSWORD;
+if(!PIKE_EMAIL)
+{
+  console.log("NO EMAIL DEFINED, CHECK YOUR .env");
+  process.exit(1);
+}
+if(!PIKE_PASSWORD)
+{
+  console.log("NO PASSWORD DEFINED, CHECK YOUR .env");
+  process.exit(1);
+}
 
 const MC = {
   url: "https://server.thecoderschool.com/toolset/",
@@ -18,13 +28,15 @@ const MC = {
   noShowColor: "rgb(0, 0, 0)",
 };
 
+//makes call to the parser script
+//returns array of Note[] 
 const fetchNotes = async (fileName) => {
   return await parseNotes(fileName);
 }
 
 const fillNotes = async (notes, todaysDate) => {
   // debug mode. 
-  const DEBUG = true;
+  const DEBUG = false;
 
   // setup browser & context
   const browser = await chromium.launch({ headless: true });
@@ -241,10 +253,55 @@ const fillNotes = async (notes, todaysDate) => {
 };
 
 const run = async () => {
-  console.log("Running autonote...");
-  const notes = await fetchNotes('notes_0320.txt');
+
+  const argc = process.argv.length;
+  if(argc !== 4 && argc !== 5)
+  {
+    console.log("Usage:");
+    console.log(" $ npm run submit -- 'path/to/note.txt'");
+    console.log("\tOR");
+    console.log(" $ npm run submit -- 'date' 'path/to/note.txt'\n");
+    console.log("NOTE: Date should be provided 'mm/dd'. Omitting the date and only providing the file will try to submit notes for the current day.\n");
+    console.log("Example of submitting a note for March 20th with a note file from a notes folder in the current directory.");
+    console.log(" $ npm run submit -- '03/20' 'notes/note_0320.txt'");
+    process.exit(1);
+  }
+  const noteFileName = argc === 4 ? process.argv[3] : process.argv[4];
+  if(!noteFileName.toLowerCase().endsWith('.txt'))
+  {
+    console.log(`Error reading file name: ${noteFileName}`);
+    process.exit(1);
+  }
+
+  //dates will always be updated to the current year!
+  const noteDate = argc === 4 ? new Date() : new Date(process.argv[3]);
+  noteDate.setFullYear(new Date().getFullYear());
+  if(isNaN(noteDate.getTime()))
+  {
+    console.log(`Error reading entered date: ${process.argv[3]}`);
+    process.exit(1);
+  }
+  console.log(noteDate);
+  const noteDateString = noteDate.toLocaleDateString("en-US", { 
+        weekday: "short", 
+        month: "short", 
+        day: "numeric",
+  }).replace(",", "");
+
+  console.log("Running autonote note submitter...");
+  console.log(`Using file: ${noteFileName}`);
+  console.log(`Using date: ${noteDateString}`);
+
+  const notes = await fetchNotes(noteFileName);
+  if(notes.length === 0)
+  {
+    console.log("No notes found from file + parser.");
+    process.exit(1);
+  }
+
   console.log(notes.length, " notes found");
-  await fillNotes(notes, 'Thu Mar 20');
+  //await fillNotes(notes, noteDateString);
+
   console.log("Thank you for using autonote...");
 };
 
