@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/imawful/autonote-tcs">
-    <img src="images/logo.png" alt="Logo" width="100" height="80">
+    <img src="images/logo.png" alt="Logo">
   </a>
 
 <h3 align="center">AutoNote - TCS</h3>
@@ -17,6 +17,7 @@
 ## About The Project
 
 This project is designed to streamline the process of submitting notes to The Coder School's Notes+ section.  
+
 Instead of manually entering notes through the web interface, AutoNote allows you to write your notes in a `.txt` file using a predefined template and automatically submit them.
 
 ### Why use AutoNote?
@@ -55,12 +56,15 @@ Make sure you have the following installed:
    ```sh
    cp template notes_today.txt
    ```
-5. Fill in all your notes (see usage for how to follow template).
-6. Copy the env template to a .env file and fill in with your information.
+5. Fill in all your notes
+   ```sh
+   # see usage for how to follow template.
+   ```
+7. Copy the env template to a .env file and fill in with your information.
    ```sh
    cp env-template .env
    ```
-7. Run the submitter (see usage for more options).
+8. Run the submitter (see usage for more options).
    ```sh
    npm run submit -- 'notes_today.txt'
    ```
@@ -71,7 +75,11 @@ Make sure you have the following installed:
 
 ### .env File
 
-Since this program submits the notes on your behalf some sort of credentials are required. I know it might not be the safest way to handle this but I came up with a .env file that will hold account credentials for signing in to `Pike13`. Playwright will then internally use these credentials when signing in to submit notes. The credentials only exists for as long as the program is running and is not stored or used anywhere else. You can copy the `env-template` to a new file called `.env` and fill out your information, this is what the final .env file is expected to look like.
+Since this program submits the notes on your behalf some sort of credentials are required. 
+
+I know it might not be the safest way to handle this but I came up with a .env file that will hold account credentials for signing in to `Pike13`. Playwright will then internally use these credentials when signing in to submit notes.
+
+The credentials only exists for as long as the program is running and is not stored or used anywhere else. You can copy the `env-template` to a new file called `.env` and fill out your information, this is what the final .env file is expected to look like.
 
 ```sh
 # .env file
@@ -81,8 +89,14 @@ PIKE_PASSWORD='password'
 
 ### Writing notes based on template.
 
-When writing your notes you just need to fill out the template for each note you write. You can easily find and replace values for example in your editor search for `{student_name}` and replace with `john doe`. Do not include the brackets in final note! The parser does NOT read comments. Below is just an example to show how the note might be filled do not leave them in the actual note as they will be read as the actual values. The information under Project Details is not required to be filled but it's usually helpful if you do, leaving it blank will leave what was already on the current note.
+When writing your notes you just need to fill out the template for each note you write.
 
+You can easily find and replace values for example in your editor search for `{student_name}` and replace with `john doe`.
+Do not include the brackets in final note!
+
+The information under Project Details is not required to be filled but it's usually helpful if you do, leaving it blank will leave what was already on the current note.
+
+The parser does NOT read comments. Below is just an example to show how the note might be filled do not leave them in the actual note as they will be read as the actual values. 
 ```sh
 # if starting a new app, you should include the line below.
 ---New App For {student_name}---
