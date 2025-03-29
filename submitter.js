@@ -169,12 +169,20 @@ const fillNotes = async (notes, todaysDate) => {
       }
 
       //check for scratch warning.
+      //- <div id="popup4" class="popup">…</div> intercepts pointer events
       const popupLocator = page.locator("#pop-content5");
       const scratchWarning = await popupLocator.isVisible();
       if (scratchWarning) {
         const closeButton = page.locator("#popclose5");
         await closeButton.click();
       }
+      const popup4Locator = page.locator("#popup4");
+      const pop4Warning = await popup4Locator.isVisible();
+      if (pop4Warning) {
+        const closeButton = page.locator("#popclose4");
+        await closeButton.click();
+      }
+
 
       //start new app if applicable.
       if (note.new_app) {
