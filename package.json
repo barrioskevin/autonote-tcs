@@ -5,6 +5,7 @@
   "scripts": {
     "compile": "tsc",
     "submit": "npm run compile && node submitter.js --env-file=.env",
+    "generate": "npm run compile && node generator.js --env-file=.env",
     "test": "test"
   },
   "author": "kusa",
