@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/imawful/autonote-tcs">
+  <a href="https://github.com/barrioskevin/autonote-tcs">
     <img src="images/logo.png" alt="Logo">
   </a>
 
@@ -41,7 +41,7 @@ Make sure you have the following installed:
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/imawful/autonote-tcs.git
+   git clone https://github.com/barrioskevin/autonote-tcs.git
    ```
 2. Step into the project directory
    ```sh
